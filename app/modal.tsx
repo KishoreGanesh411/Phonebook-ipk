@@ -1,29 +1,32 @@
-import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from "react-native";
+import { Stack } from "expo-router";
 
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text } from "@/components/ui/Text";
+import { useTheme } from "@/core/theme/ThemeProvider";
 
-export default function ModalScreen() {
+export default function ModalRoute() {
+  const theme = useTheme();
+  const styles = makeStyles(theme);
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">This is a modal</ThemedText>
-      <Link href="/" dismissTo style={styles.link}>
-        <ThemedText type="link">Go to home screen</ThemedText>
-      </Link>
-    </ThemedView>
+    <View style={styles.container}>
+      <Stack.Screen options={{ title: "Modal", presentation: "modal" }} />
+      <Text size="lg" weight="semibold">
+        Placeholder modal
+      </Text>
+      <Text tone="muted">Use this space for quick CRM actions or notes.</Text>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});
+const makeStyles = (theme: ReturnType<typeof useTheme>) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+      padding: theme.spacing.lg,
+      alignItems: "center",
+      justifyContent: "center",
+      gap: theme.spacing.sm
+    }
+  });

@@ -1,50 +1,92 @@
-# Welcome to your Expo app 👋
+# IPK PhoneBook
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Production-ready Expo (React Native) CRM starter using Expo Router, TypeScript, and Zustand. The project follows a feature-first structure with thin routes, leveraging device contacts via `expo-contacts` and a themed UI aligned with the IPK CRM palette.
 
-## Get started
+## Prerequisites
 
-1. Install dependencies
+- Node.js >= 18
+- npm >= 9
+- Expo CLI (`npm install -g expo-cli`)
+- Android Studio / Xcode for native builds (optional)
+- Expo Go (for physical device testing)
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Getting Started
 
 ```bash
-npm run reset-project
+npm install
+npm run start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Press `a` for Android, `i` for iOS, or scan the QR with Expo Go.
 
-## Learn more
+## Scripts
 
-To learn more about developing your project with Expo, look at the following resources:
+| Command | Description |
+| ------- | ----------- |
+| `npm run start` | Start the Expo dev server |
+| `npm run android` | Build & run Android native binary |
+| `npm run ios` | Build & run iOS native binary |
+| `npm run typecheck` | TypeScript strict type check |
+| `npm run lint` | ESLint with Prettier rules |
+| `npm run test` | Jest + React Testing Library suite |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Folder Structure
 
-## Join the community
+```
+Ipk-PhoneBook/
+├── app/                  # Expo Router routes (thin wrappers only)
+├── features/             # Feature-first modules (auth, contacts, settings)
+├── core/                 # Shared API, storage, theme, utils, hooks
+├── components/           # Shared UI primitives & feedback components
+├── config/               # Environment access & permissions docs
+├── tests/                # Jest setup and mocks
+├── scripts/              # Tooling scripts (e.g., reset-project)
+├── app.config.ts         # Expo config with env exposure & permissions
+└── package.json
+```
 
-Join our community of developers creating universal apps.
+## Permissions
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Documented in `config/permissions.android.json` and `config/permissions.ios.json` and surfaced through `app.config.ts`.
+
+- **Android**: `READ_CONTACTS`, `WRITE_CONTACTS`, `VIBRATE`, `INTERNET`
+- **iOS**: `NSContactsUsageDescription`
+
+## Environment Variables
+
+Expose API URLs or other runtime values via `EXPO_PUBLIC_*` keys:
+
+```bash
+EXPO_PUBLIC_API_URL=https://api.example.com npm run start
+```
+
+Access them using `env.API_URL` from `config/env.ts`.
+
+## Testing & Quality Gates
+
+```bash
+npm run test        # jest-expo + @testing-library/react-native
+npm run lint        # ESLint (Prettier compatible)
+npm run typecheck   # Strict TypeScript validation
+```
+
+At least one component test ships with `features/contacts/__tests__/ContactsScreen.test.tsx`.
+
+## Adding a New Feature
+
+1. Create `features/<feature>/` with `screens/`, `hooks/`, `store/`, `services/`, `types.ts`, `__tests__/`.
+2. Add a thin route in `app/` that simply returns the feature screen.
+3. Document any new permissions in `config/permissions.*.json` and update `app.config.ts` if needed.
+4. Expose shared UI through `components/` only when truly cross-feature.
+5. Add tests and ensure `npm run lint`, `npm run typecheck`, and `npm run test` succeed.
+
+## Build
+
+When ready for native builds:
+
+```bash
+npm run android
+npm run ios
+```
+
+Use EAS (`eas build`) for production pipelines if required.
