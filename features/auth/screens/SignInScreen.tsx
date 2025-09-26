@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, TextInput, View } from "react-native";
 import { useRouter } from "expo-router";
 
-import { IPKLogo } from "@/components/branding/IPKLogo";
 import { Field } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
@@ -36,7 +35,9 @@ export const SignInScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <View style={styles.hero}>
-        <IPKLogo size={132} />
+        <Text style={styles.wordmark}>
+          IPKwealth
+        </Text>
         <Text size="xl" weight="bold" style={styles.title}>
           Sign In
         </Text>
@@ -86,6 +87,12 @@ const makeStyles = (theme: ReturnType<typeof useTheme>) =>
       alignItems: "center",
       gap: theme.spacing.md
     },
+    wordmark: {
+      fontSize: 42,
+      fontWeight: "900",
+      letterSpacing: 1.2,
+      color: theme.colors.text
+    },
     title: {
       letterSpacing: 0.5
     },
@@ -100,4 +107,3 @@ const makeStyles = (theme: ReturnType<typeof useTheme>) =>
       textAlign: "center"
     }
   });
-

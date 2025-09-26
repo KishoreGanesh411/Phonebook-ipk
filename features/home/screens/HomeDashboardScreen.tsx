@@ -21,6 +21,7 @@ import {
   type Lead,
   type LeadCategory
 } from "@/features/home/data/leadData";
+import { ProfileModal } from "@/features/home/components";
 
 const quickActions: Array<{
   id: string;
@@ -39,6 +40,7 @@ export const HomeDashboardScreen = () => {
   const { width } = useWindowDimensions();
   const horizontalPagerRef = useRef<ScrollView>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [profileVisible, setProfileVisible] = useState(false);
   const user = useAuthStore((state) => state.user);
 
   const displayName = user?.name ?? "IPK Wealth";
@@ -86,9 +88,13 @@ export const HomeDashboardScreen = () => {
             </Text>
           </View>
           <View style={styles.headerIcons}>
-            <View style={styles.smallAvatar}>
+            <Pressable
+              style={styles.smallAvatar}
+              onPress={() => setProfileVisible(true)}
+              accessibilityRole="button"
+            >
               <MaterialIcons name="person-outline" size={18} color={theme.colors.primary} />
-            </View>
+            </Pressable>
             <View style={styles.smallAvatar}>
               <MaterialIcons name="verified-user" size={18} color={theme.colors.primary} />
             </View>
@@ -198,6 +204,11 @@ export const HomeDashboardScreen = () => {
           </ScrollView>
         </View>
       </ScrollView>
+      <ProfileModal
+        visible={profileVisible}
+        onClose={() => setProfileVisible(false)}
+        user={user}
+      />
     </SafeAreaView>
   );
 };

@@ -2,8 +2,7 @@ import { AuthUser, SignInPayload } from "@/features/auth/types";
 
 const DEMO_CREDENTIALS = {
   email: "ipktest@ipkwealth.com",
-  password: "Ipk@2025",
-  name: "IPK Wealth Advisor"
+  password: "Ipk@2025"
 } as const;
 
 export async function signInMock({ email, password }: SignInPayload): Promise<AuthUser> {
@@ -21,6 +20,9 @@ export async function signInMock({ email, password }: SignInPayload): Promise<Au
 
   return {
     email: DEMO_CREDENTIALS.email,
-    name: DEMO_CREDENTIALS.name
+    name: "IPK Wealth Advisor",
+    phone: "+91 98765 55667",
+    gender: "Female",
+    department: "Wealth Advisory"
   };
 }
